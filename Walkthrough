@@ -1,0 +1,76 @@
+/* 1. Let's track a car  (plate that included "H42W".):
+SELECT * FROM drivers_license
+WHERE plate_number LIKE "%H42W%"
+AND gender='male';
+
+!!!SPOILERS will be below scripts semicolons:
+423327
+664760
+*/
+
+/* 2. Cars owners ID?, needed person ID:
+SELECT * FROM person p
+JOIN drivers_license d
+ON p.license_id=d.id
+WHERE p.license_id IN (423327, 664760);
+id 67318 Jeremy Bowers
+id 51739 Tushar Chandra*/
+
+
+/* 3. gym membership check :
+SELECT * FROM get_fit_now_member
+WHERE person_id IN (67318,51739);
+48Z55	67318	Jeremy Bowers	20160101	gold
+*/
+
+/*
+Congrats, you found the murderer! 
+But wait, there's more... 
+If you think you're up for a challenge, try querying the interview transcript of the murderer to find the real villain behind this crime. 
+If you feel especially confident in your SQL skills, try to complete this final step with no more than 2 queries. 
+Use this same INSERT statement with your new suspect to check your answer.*/
+
+/* 4. Let's read what's he said:
+SELECT * FROM interview
+WHERE person_id=67318;
+*/
+
+/*
+I was hired by a woman with a lot of money.
+I know she's around 5'5" (65") or 5'7" (67").
+She has red hair and she drives a Tesla Model S.
+I know that she attended the SQL Symphony Concert 3 times in December 2017.
+*/
+
+/* 5. Searching drivers db for her:
+SELECT * FROM drivers_license
+WHERE height > 65
+AND hair_color='red'
+AND car_make='Tesla'
+AND gender='female';
+
+202298
+291182
+*/
+
+/* 6.Let's get they ID's:
+SELECT * FROM person p
+JOIN drivers_license d
+ON d.id = p.license_id
+WHERE p.license_id IN (202298,291182);
+
+id	name	license_id	address_number	address_street_name	ssn
+99716	Miranda Priestly	202298	1883	Golden Ave	987756388
+90700	Regina George		291182	332		Maple Ave	337169072
+*/
+
+/* 7. Check event's DB for corresponding id's:
+SELECT * FROM facebook_event_checkin f
+JOIN person p
+ON f.person_id = p.id
+WHERE event_name='SQL Symphony Concert'
+AND f.person_id IN (99716, 90700)
+ORDER BY person_id DESC;
+
+Miranda Priestly
+*/
